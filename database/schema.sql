@@ -1,0 +1,2 @@
+﻿-- Ne Pisirsek? - PostgreSQL Schema
+-- Versiyon: 1.0
