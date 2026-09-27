@@ -46,6 +46,15 @@ MEALS = [
         "recipe": "1. Yoğurdu ezilmiş sarımsakla karıştırıp tabaklara paylaştırın.\n2. Kaynayan suya sirke ekleyip yumurtaları tek tek kırarak 3 dakika poşe edin.\n3. Yumurtaları yoğurdun üzerine yerleştirin.\n4. Tereyağında pul biberi kızdırıp üzerine gezdirin.",
     },
     {
+        "name": "Patatesli Yumurta",
+        "desc": "Kızarmış patates küpleri üzerine kırılan doyurucu kahvaltılık.",
+        "region": "turkiye", "categories": ["kahvalti"],
+        "prep": 10, "cook": 15, "servings": 2, "cost": 70,
+        "nutrition": (350, 14, 22, 22, 2),
+        "ingredients": [("Patates", 2), ("Yumurta", 4), ("Soğan", 1), ("Sıvı yağ", 2), ("Tuz", 1), ("Karabiber", 0.5)],
+        "recipe": "1. Patatesleri küçük küpler halinde doğrayın.\n2. Kızgın yağda patatesleri ve ince doğranmış soğanı kızarana kadar kavurun.\n3. Üzerine yumurtaları kırın, tuz ve karabiber serpin.\n4. Yumurta akı pişip sarısı istediğiniz kıvama gelene kadar kısık ateşte pişirin.",
+    },
+    {
         "name": "Pişi",
         "desc": "Kızgın yağda kabaran hamur; peynir ve reçelle.",
         "region": "marmara", "categories": ["kahvalti", "hamur-isi"],
