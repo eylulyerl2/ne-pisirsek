@@ -135,6 +135,7 @@ export function JoinPage() {
                       <strong>{user.full_name}</strong> hesabıyla katılacaksınız.
                     </p>
                     {error !== null && <ErrorNote error={error} />}
+                    {!busy && !code.trim() && <p className="hint">Devam etmek için yukarıya davet şifresini girin.</p>}
                     <button type="submit" className="btn btn-primary" disabled={busy || !code.trim()}>
                       {busy ? "Katılınıyor…" : "Aileye katıl"}
                     </button>
@@ -175,6 +176,7 @@ export function JoinPage() {
                           <span className="hint">E-postanız yoksa boş bırakın.</span>
                         </div>
                         {error !== null && <ErrorNote error={error} />}
+                        {!busy && !code.trim() && <p className="hint">Devam etmek için yukarıya davet şifresini girin.</p>}
                         <button type="submit" className="btn btn-primary" disabled={busy || !code.trim()}>
                           {busy ? "Hesap oluşturuluyor…" : "Hesap oluştur ve katıl"}
                         </button>
@@ -190,6 +192,7 @@ export function JoinPage() {
                           <input id="join-existing-password" className="input" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
                         </div>
                         {error !== null && <ErrorNote error={error} />}
+                        {!busy && !code.trim() && <p className="hint">Devam etmek için yukarıya davet şifresini girin.</p>}
                         <button type="submit" className="btn btn-primary" disabled={busy || !code.trim()}>
                           {busy ? "Katılınıyor…" : "Giriş yap ve katıl"}
                         </button>

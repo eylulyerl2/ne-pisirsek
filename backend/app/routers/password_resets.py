@@ -9,13 +9,34 @@ from app.database import get_db
 from app.dependencies import get_current_user, require_family_admin
 from app.models import FamilyMember, PasswordReset, Profile
 from app.schemas.auth import Token
-from app.schemas.password_reset import PasswordResetComplete, PasswordResetCreated, PasswordResetPreview
+from app.schemas.password_reset import (
+    PasswordResetComplete,
+    PasswordResetCreated,
+    PasswordResetPreview,
+)
 from app.security import create_access_token, hash_password
 from app.services.codes import new_code, now_utc, verify_one_time_code
 
 router = APIRouter(tags=["password-resets"])
 
 RESET_TTL = timedelta(hours=24)
+
+
+def _issue_reset(db: Session, *, user_id: uuid.UUID, created_by: uuid.UUID | None) -> tuple[PasswordReset, str]:
+    """Önceki bekleyen/kilitli sıfırlamaları iptal edip yenisini oluşturur. Commit etmez."""
+    db.query(PasswordReset).filter(PasswordReset.user_id == user_id, PasswordReset.status.in_(("pending", "locked"))).delete(
+        synchronize_session=False
+    )
+    code = new_code()
+    reset = PasswordReset(
+        user_id=user_id,
+        created_by=created_by,
+        token=secrets.token_urlsafe(32),
+        code_hash=hash_password(code),
+        expires_at=now_utc() + RESET_TTL,
+    )
+    db.add(reset)
+    return reset, code
 
 
 @router.post(
@@ -50,18 +71,7 @@ def create_password_reset(
             detail="Bu hesabı aile açmadığı için şifresini yalnızca hesap sahibi değiştirebilir",
         )
 
-    db.query(PasswordReset).filter(PasswordReset.user_id == user_id, PasswordReset.status.in_(("pending", "locked"))).delete(
-        synchronize_session=False
-    )
-    code = new_code()
-    reset = PasswordReset(
-        user_id=user_id,
-        created_by=current_user.user_id,
-        token=secrets.token_urlsafe(32),
-        code_hash=hash_password(code),
-        expires_at=now_utc() + RESET_TTL,
-    )
-    db.add(reset)
+    reset, code = _issue_reset(db, user_id=user_id, created_by=current_user.user_id)
     db.commit()
     return PasswordResetCreated(token=reset.token, code=code, expires_at=reset.expires_at, member_name=profile.full_name)
 
@@ -120,16 +130,18 @@ def complete_password_reset(payload: PasswordResetComplete, db: Session = Depend
     reset = db.query(PasswordReset).filter(PasswordReset.token == payload.token).with_for_update().first()
     if reset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Şifre sıfırlama bağlantısı bulunamadı")
+
     verify_one_time_code(
         db,
         reset,
         payload.code,
         done_status="used",
         used_message="Bu şifre sıfırlama bağlantısı daha önce kullanılmış",
-        locked_message="Çok fazla yanlış şifre denendiği için bağlantı kilitlendi. Aile yöneticisinden yeni bir bağlantı isteyin",
-        expired_message="Şifre sıfırlama bağlantısının süresi dolmuş, aile yöneticisinden yenisini isteyin",
+        locked_message="Çok fazla yanlış şifre denendiği için bağlantı kilitlendi. Lütfen aile yöneticisinden yenisini isteyin",
+        expired_message="Şifre sıfırlama bağlantısının süresi dolmuş, lütfen aile yöneticisinden yenisini isteyin",
     )
     profile = db.get(Profile, reset.user_id)
+
     still_managed = (
         profile.created_via_family_id is not None
         and db.query(FamilyMember.member_id)

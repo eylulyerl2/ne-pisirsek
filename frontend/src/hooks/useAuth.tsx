@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { ApiError, setUnauthorizedHandler, tokenStore } from "../services/api";
+import { ApiError, TOKEN_KEY, setUnauthorizedHandler, tokenStore } from "../services/api";
 import { api } from "../services/endpoints";
 import type { User } from "../services/types";
 
@@ -30,6 +30,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setUnauthorizedHandler(logout);
     return () => setUnauthorizedHandler(null);
+  }, [logout]);
+
+  useEffect(() => {
+    // Başka bir sekmede giriş/çıkış yapılırsa bu sekme de senkron olsun (token tarayıcıda paylaşılır)
+    function onStorage(event: StorageEvent) {
+      if (event.key === TOKEN_KEY && event.newValue !== event.oldValue) logout();
+    }
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
   }, [logout]);
 
   useEffect(() => {

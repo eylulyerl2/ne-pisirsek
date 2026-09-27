@@ -1,7 +1,7 @@
 import { NETWORK_ERROR, formatApiError } from "../utils/errors";
 
 export const API_URL: string = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
-const TOKEN_KEY = "nepisirsek.token";
+export const TOKEN_KEY = "nepisirsek.token";
 
 export const tokenStore = {
   get(): string | null {
@@ -90,7 +90,7 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
   }
 
   if (!response.ok) {
-    if (response.status === 401 && auth && token) unauthorizedHandler?.();
+    if (response.status === 401 && auth) unauthorizedHandler?.();
     throw new ApiError(response.status, formatApiError(response.status, data));
   }
   return data as T;
