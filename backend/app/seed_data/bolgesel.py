@@ -1,0 +1,38 @@
+MEALS = [
+    {
+        "name": "Harput Köftesi",
+        "desc": "Elazığ'ın bulgurlu, kıymalı, nohutlu sulu köftesi.",
+        "region": "dogu-anadolu", "categories": ["et", "baklagil"],
+        "prep": 45, "cook": 40, "servings": 4, "cost": 300,
+        "nutrition": (420, 26, 42, 16, 7),
+        "ingredients": [("İnce bulgur", 200), ("Kıyma", 300), ("Soğan", 2), ("Nohut", 100), ("Salça", 1), ("Tereyağı", 1), ("Toz kırmızı biber", 1), ("Kuru nane", 1), ("Tuz", 1)],
+        "recipe": "1. Nohutu ıslatıp yarı yumuşayana kadar haşlayın.\n2. İnce bulguru, kıymayı, rendelenmiş 1 soğanı ve tuzu uzun uzun yoğurup ceviz büyüklüğünde köfteler yapın.\n3. Tereyağında kalan soğanı ve salçayı kavurun, 5 su bardağı sıcak su ve nohutu ekleyip kaynatın.\n4. Köfteleri yavaşça bırakıp kısık ateşte 30 dakika pişirin.\n5. Kırmızı biber ve naneyle servis edin.",
+    },
+    {
+        "name": "Erzurum Kadayıf Dolması",
+        "desc": "Cevizli, şerbetli, fırında pişen kadayıf dolması.",
+        "region": "dogu-anadolu", "categories": ["tatli"],
+        "prep": 40, "cook": 30, "servings": 8, "cost": 280,
+        "nutrition": (450, 7, 55, 23, 2),
+        "ingredients": [("Kadayıf", 250), ("Ceviz", 150), ("Şeker", 300), ("Tereyağı", 4)],
+        "recipe": "1. Kadayıfı avuçla açıp geniş bir parça alın, ortasına ceviz koyup kapatın.\n2. Dolmaları yağlanmış tepsiye dizin, üzerine eritilmiş tereyağı gezdirin.\n3. 180 derece fırında altı üstü kızarana kadar 25-30 dakika pişirin.\n4. Şeker ve 2 su bardağı sudan şerbet kaynatıp soğutun.\n5. Sıcak dolmaya soğuk şerbeti dökün, dinlendirip servis edin.",
+    },
+    {
+        "name": "Şiş Köfte",
+        "desc": "Antalya usulü baharatlı kıyma köftesi; piyazla yenir.",
+        "region": "akdeniz", "categories": ["et"],
+        "prep": 25, "cook": 15, "servings": 4, "cost": 280,
+        "nutrition": (320, 26, 8, 21, 1),
+        "ingredients": [("Kıyma", 400), ("Soğan", 1), ("Maydanoz", 0.5), ("Kimyon", 1), ("Pul biber", 1), ("Tuz", 1), ("Karabiber", 0.5), ("Domates", 2), ("Yeşil biber", 3)],
+        "recipe": "1. Kıymayı rendelenmiş soğan, kıyılmış maydanoz ve baharatlarla uzun süre yoğurun.\n2. En az 1 saat dolapta dinlendirin.\n3. Islak elle şişlere yassıca sarın.\n4. Izgarada iki yüzünü de pişirin, közlenmiş domates ve biberle servis edin.",
+    },
+    {
+        "name": "Mısır Ekmeği",
+        "desc": "Karadeniz sofrasının vazgeçilmezi mısır unlu ekmek.",
+        "region": "karadeniz", "categories": ["yan-yemek", "hamur-isi"],
+        "prep": 15, "cook": 35, "servings": 6, "cost": 60,
+        "nutrition": (240, 7, 40, 6, 3),
+        "ingredients": [("Mısır unu", 300), ("Un", 100), ("Yumurta", 1), ("Süt", 300), ("Kabartma tozu", 2), ("Tuz", 1), ("Sıvı yağ", 3)],
+        "recipe": "1. Mısır unu, un, kabartma tozu ve tuzu karıştırın.\n2. Yumurta, süt ve yağı ekleyip akışkan bir hamur elde edin.\n3. Yağlanmış tepsiye dökün.\n4. 200 derece fırında 30-35 dakika pişirin.",
+    },
+]
